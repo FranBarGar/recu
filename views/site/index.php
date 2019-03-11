@@ -1,5 +1,6 @@
 <?php
-
+use yii\helpers\Html;
+use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
 
 $this->title = 'My Yii Application';
@@ -7,14 +8,25 @@ $this->title = 'My Yii Application';
 <div class="site-index">
 
     <div class="jumbotron">
-        <h1>Congratulations!</h1>
+        <h1>Buscador!</h1>
+    <div >
 
-        <p class="lead">You have successfully created your Yii-powered application.</p>
+    <div class="sites-form">
+        <?php $form = ActiveForm::begin([
+        'method' => 'get',
+    ]); ?>
+            <?= Html::input('text', 'buscar') ?>
+            <div class="form-group">
+                <?= Html::submitButton('Buscar', ['class' => 'btn btn-success']) ?>
+            </div>
+        <?php ActiveForm::end(); ?>
+</div>
+        <!-- <p class="lead">You have successfully created your Yii-powered application.</p>
 
-        <p><a class="btn btn-lg btn-success" href="http://www.yiiframework.com">Get started with Yii</a></p>
-    </div>
+        <p><a class="btn btn-lg btn-success" href="http://www.yiiframework.com">Get started with Yii</a></p> -->
+</div>
 
-    <div class="body-content">
+    <!-- <div class="body-content">
 
         <div class="row">
             <div class="col-lg-4">
@@ -47,7 +59,7 @@ $this->title = 'My Yii Application';
 
                 <p><a class="btn btn-default" href="http://www.yiiframework.com/extensions/">Yii Extensions &raquo;</a></p>
             </div>
-        </div>
+        </div> -->
 
     </div>
 </div>

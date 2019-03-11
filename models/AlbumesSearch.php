@@ -4,13 +4,13 @@ namespace app\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Albumes;
 
 /**
  * AlbumesSearch represents the model behind the search form of `app\models\Albumes`.
  */
 class AlbumesSearch extends Albumes
 {
+    public $duraciontotal;
     /**
      * {@inheritdoc}
      */
@@ -18,9 +18,19 @@ class AlbumesSearch extends Albumes
     {
         return [
             [['id'], 'integer'],
-            [['titulo'], 'safe'],
+            [['titulo', 'duraciontotal'], 'safe'],
             [['anyo'], 'number'],
         ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function attributes()
+    {
+        return array_merge(parent::attributes(), [
+            'duraciontotal',
+        ]);
     }
 
     /**
@@ -33,7 +43,7 @@ class AlbumesSearch extends Albumes
     }
 
     /**
-     * Creates data provider instance with search query applied
+     * Creates data provider instance with search query applied.
      *
      * @param array $params
      *
@@ -49,6 +59,12 @@ class AlbumesSearch extends Albumes
             'query' => $query,
         ]);
 
+        $dataProvider->sort->attributes['duraciontotal'] = [
+            'asc' => ['duraciontotal' => SORT_ASC],
+            'desc' => ['duraciontotal' => SORT_DESC],
+        ];
+
+
         $this->load($params);
 
         if (!$this->validate()) {
@@ -61,6 +77,7 @@ class AlbumesSearch extends Albumes
         $query->andFilterWhere([
             'id' => $this->id,
             'anyo' => $this->anyo,
+            'duraciontotal' => $this->duraciontotal,
         ]);
 
         $query->andFilterWhere(['ilike', 'titulo', $this->titulo]);

@@ -2,12 +2,14 @@
 
 namespace app\controllers;
 
-use Yii;
 use app\models\Albumes;
+use app\models\AlbumesCanciones;
 use app\models\AlbumesSearch;
+use Yii;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 /**
  * AlbumesController implements the CRUD actions for Albumes model.
@@ -26,6 +28,15 @@ class AlbumesController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
+            'access' => [
+                'class' => AccessControl::class,
+                'only' => ['delete'],
+                'rules' => [
+                    [
+                        'allow' => false,
+                    ],
+                ],
+            ],
         ];
     }
 
@@ -37,22 +48,34 @@ class AlbumesController extends Controller
     {
         $searchModel = new AlbumesSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $canciones = AlbumesCanciones::find()
+        ->where(['album_id' => $this->id]);
+
+        $duraciontotal = 0;
+
+        foreach ($canciones as $cancion) {
+            $duraciontotal = $duraciontotal + $cancion->cancion->duracion;
+        }
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'duraciontotal' => $duraciontotal,
         ]);
     }
 
     /**
      * Displays a single Albumes model.
-     * @param integer $id
+     * @param int $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionView($id)
     {
+        $canciones = AlbumesCanciones::find()->where(['album_id' => $id])->asArray();
+        $artistas = ArtistasCanciones::find()->where(['album_id' => $id])->asArray();
         return $this->render('view', [
+            'canciones' => $canciones,
             'model' => $this->findModel($id),
         ]);
     }
@@ -78,7 +101,7 @@ class AlbumesController extends Controller
     /**
      * Updates an existing Albumes model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
+     * @param int $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
@@ -98,7 +121,7 @@ class AlbumesController extends Controller
     /**
      * Deletes an existing Albumes model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
+     * @param int $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
@@ -112,7 +135,7 @@ class AlbumesController extends Controller
     /**
      * Finds the Albumes model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
+     * @param int $id
      * @return Albumes the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
@@ -123,5 +146,21 @@ class AlbumesController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    /**
+     * Calculo duracion total basandome en la duracion de todas las canciones de
+     * ese album.
+     * @return Canciones
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    public function actionCalcular()
+    {
+        $canciones = AlbumesCanciones::find()
+        ->where(
+            ['album_id' => $this->id]
+        );
+        var_dump($canciones);
+        die();
     }
 }

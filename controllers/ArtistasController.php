@@ -2,12 +2,13 @@
 
 namespace app\controllers;
 
-use Yii;
 use app\models\Artistas;
 use app\models\ArtistasSearch;
+use Yii;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 /**
  * ArtistasController implements the CRUD actions for Artistas model.
@@ -24,6 +25,15 @@ class ArtistasController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
+                ],
+            ],
+            'access' => [
+                'class' => AccessControl::class,
+                'only' => ['delete'],
+                'rules' => [
+                    [
+                        'allow' => false,
+                    ],
                 ],
             ],
         ];
@@ -46,7 +56,7 @@ class ArtistasController extends Controller
 
     /**
      * Displays a single Artistas model.
-     * @param integer $id
+     * @param int $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
@@ -78,7 +88,7 @@ class ArtistasController extends Controller
     /**
      * Updates an existing Artistas model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
+     * @param int $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
@@ -98,7 +108,7 @@ class ArtistasController extends Controller
     /**
      * Deletes an existing Artistas model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
+     * @param int $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
@@ -112,7 +122,7 @@ class ArtistasController extends Controller
     /**
      * Finds the Artistas model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
+     * @param int $id
      * @return Artistas the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */

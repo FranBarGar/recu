@@ -16,6 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?= Html::a('Create Albumes', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Prueba', ['albumes/calcular'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -24,11 +25,12 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
+            // ['class' => 'yii\grid\SerialColumn'],
+            //
+            // 'id',
             'titulo',
             'anyo',
+            'duraciontotal',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

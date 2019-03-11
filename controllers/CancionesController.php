@@ -2,12 +2,13 @@
 
 namespace app\controllers;
 
-use Yii;
 use app\models\Canciones;
 use app\models\CancionesSearch;
+use Yii;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 /**
  * CancionesController implements the CRUD actions for Canciones model.
@@ -24,6 +25,15 @@ class CancionesController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
+                ],
+            ],
+            'access' => [
+                'class' => AccessControl::class,
+                'only' => ['delete'],
+                'rules' => [
+                    [
+                        'allow' => false,
+                    ],
                 ],
             ],
         ];
@@ -46,7 +56,7 @@ class CancionesController extends Controller
 
     /**
      * Displays a single Canciones model.
-     * @param integer $id
+     * @param int $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
@@ -78,7 +88,7 @@ class CancionesController extends Controller
     /**
      * Updates an existing Canciones model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
+     * @param int $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
@@ -98,7 +108,7 @@ class CancionesController extends Controller
     /**
      * Deletes an existing Canciones model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
+     * @param int $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
@@ -112,7 +122,7 @@ class CancionesController extends Controller
     /**
      * Finds the Canciones model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
+     * @param int $id
      * @return Canciones the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */

@@ -2,12 +2,11 @@
 
 namespace app\controllers;
 
-use Yii;
 use app\models\AlbumesCanciones;
-use app\models\AlbumesCancionesSearch;
+use Yii;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 /**
  * AlbumesCancionesController implements the CRUD actions for AlbumesCanciones model.
@@ -46,8 +45,8 @@ class AlbumesCancionesController extends Controller
 
     /**
      * Displays a single AlbumesCanciones model.
-     * @param integer $album_id
-     * @param integer $cancion_id
+     * @param int $album_id
+     * @param int $cancion_id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
@@ -79,8 +78,8 @@ class AlbumesCancionesController extends Controller
     /**
      * Updates an existing AlbumesCanciones model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $album_id
-     * @param integer $cancion_id
+     * @param int $album_id
+     * @param int $cancion_id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
@@ -100,8 +99,8 @@ class AlbumesCancionesController extends Controller
     /**
      * Deletes an existing AlbumesCanciones model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $album_id
-     * @param integer $cancion_id
+     * @param int $album_id
+     * @param int $cancion_id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
@@ -115,8 +114,8 @@ class AlbumesCancionesController extends Controller
     /**
      * Finds the AlbumesCanciones model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $album_id
-     * @param integer $cancion_id
+     * @param int $album_id
+     * @param int $cancion_id
      * @return AlbumesCanciones the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
@@ -127,5 +126,12 @@ class AlbumesCancionesController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    public function actionCalcular()
+    {
+        $canciones = Canciones::find()->where(['id' => $this->cancion_id]);
+        var_dump($canciones);
+        die();
     }
 }
